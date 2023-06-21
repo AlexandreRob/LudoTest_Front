@@ -1,16 +1,44 @@
 {
   "name": "vite-template-solid",
+  "type": "module",
   "version": "0.0.0",
   "description": "",
   "scripts": {
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "test": "jest"
   },
+  "jest": {
+    "preset": "solid-jest/preset/browser",
+    "moduleNameMapper": {
+      ".*\\.(css|jpe?g|png|svg)$": "<rootDir>/.empty.js"
+    },
+    "transform": {
+      "\\.[jt]s$": "babel-jest",
+      "\\.module\\.css$": "jest-css-modules-transform"
+    },
+    "testEnvironment": "jsdom"
+  },
+  "setupFiles": [
+    "node_modules/@testing-library/jest-dom/extend-expect"
+  ],
   "license": "MIT",
   "devDependencies": {
+    "@graphql-tools/jest-transform": "^2.0.0",
+    "@solidjs/testing-library": "^0.8.1",
+    "@talabes/json5-jest": "^2.0.0",
+    "@testing-library/dom": "^9.3.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/user-event": "^14.4.3",
+    "jest": "^29.5.0",
+    "jest-css-modules-transform": "^4.4.2",
+    "jest-environment-jsdom": "^29.5.0",
+    "jest-file-loader": "^1.0.3",
+    "jest-webworker": "^0.0.1",
     "solid-devtools": "^0.27.3",
+    "solid-jest": "^0.2.0",
     "vite": "^4.3.9",
     "vite-plugin-solid": "^2.7.0"
   },
