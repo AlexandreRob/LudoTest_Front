@@ -10,11 +10,13 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "jest": "^29.5.0",
     "solid-devtools": "^0.27.3",
     "vite": "^4.3.9",
     "vite-plugin-solid": "^2.7.0"
   },
   "dependencies": {
+    "@solidjs/router": "^0.8.2",
     "solid-js": "^1.7.6"
   }
 }
