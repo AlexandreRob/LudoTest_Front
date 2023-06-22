@@ -1,7 +1,7 @@
 import type { Component } from 'solid-js';
 import { createSignal } from 'solid-js';
 import { onMount } from 'solid-js';
-import { fetchData, postData, deleteData, fetchSingle, updateData } from './api';
+import Api from './api';
 
 interface TableauProps {
   games: {
@@ -14,7 +14,7 @@ interface TableauProps {
 
 
 const Tableau: Component = () => {
-
+    
     // const apiService = new ApiService();
 
     const [games, setgames] = createSignal([]);
@@ -23,13 +23,51 @@ const Tableau: Component = () => {
 
     onMount(async () => {
       try {
-        const data = await fetchData('JeuViewset/');
+        const api = new Api();
+        const data = await api.get('JeuViewset/');
         setgames(data);
         setLoading(false);
       } catch (error) {
         console.error(error);
       }
     });
+
+    const Supp = (id : any) => {
+      try {
+        const api = new Api();
+        api.delete('EditeurViewset',id)
+        console.log('Ok')
+      } catch (error) {
+        console.log(error)
+      }
+    
+    }
+
+    const Edit = async (id : any) => {
+      try {
+        const data = await api.getSingle('EditeurViewset', id);
+        const nomEditeur = data.nom_editeur; // Supposons que "nomEditeur" est le champ que vous voulez remplir dans le formulaire
+        const edit = document.getElementById('editeur')
+        edit.value = nomEditeur
+        edit.setAttribute('data-id',data.id_editeur)
+        console.log(edit)
+      } catch (error) {
+        console.error(error);
+      }
+    
+    }
+
+    const handleEdit = () => {
+      try {
+        const edit = document.getElementById('editeur') as HTMLInputElement;
+        const id = edit.getAttribute('data-id');
+        console.log(edit)
+        api.update('EditeurViewset', id, edit.value )
+      } catch (error) {
+        console.log(error)
+      }
+
+    }
 
     return (
         <div>
@@ -51,9 +89,15 @@ const Tableau: Component = () => {
                     {/* <!-- row 1 --> */}
                     {games().map((game : any) => (
                      <tr>
-                          <td>{ game.nom_jeu }</td>
-                          <td>{ game.age_min }</td>
-                          <td>{ game.date_publication }</td>
+                          <td>{ game.nom_editeur }</td>
+                          {/* <td>{ game.age_min }</td>
+                          <td>{ game.date_publication }</td> */}
+                          <th>
+                            <button onClick={() => Supp(game.id_editeur)} class="btn btn-ghost btn-xs">Supp</button>
+                          </th>
+                          <th>
+                            <button onClick={() => Edit(game.id_editeur)} class="btn btn-ghost btn-xs">Edit</button>
+                          </th>
                       </tr>
                     ))}
                 </tbody>
@@ -61,6 +105,19 @@ const Tableau: Component = () => {
         </div>
         
       )}
+      <form onSubmit={handleEdit} class="form">
+
+        <label class="label">
+            <span class="label-text">Edit nom Editeur</span>
+        </label>
+        <label class="input-group">
+            <input id='editeur' name="edit" type="text" placeholder="Treyarch" class="input input-bordered"/>
+        </label>
+
+        <button type="submit" class="btn btn-active btn-primary">
+        Edit editeur
+        </button>
+      </form>
       </div>
     );
 
