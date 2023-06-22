@@ -1,5 +1,5 @@
 import { render } from "@solidjs/testing-library";
-import Tableau from "./table";
+import Tableau from "./tableau";
 import { fetchData, postData, deleteData, fetchSingle, updateData } from './api';
 
 describe("Test du tableau", () => {

@@ -1,6 +1,6 @@
 import type { Component } from 'solid-js';
 
-import Tableau from './table';
+import Tableau from './tableau';
 
 
 const App: Component = () => {
