@@ -2,6 +2,7 @@
 import { render } from 'solid-js/web';
 
 import App from './App';
+import  MyComponent from './ff';
 
 const root = document.getElementById('root');
 
@@ -12,3 +13,4 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 }
 
 render(() => <App />, root!);
+render(() => <MyComponent />, root!);
