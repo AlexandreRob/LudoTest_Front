@@ -13,7 +13,8 @@
     "preset": "solid-jest/preset/browser",
     "setupFilesAfterEnv": [
       "<rootDir>/node_modules/@testing-library/jest-dom/extend-expect"
-    ]
+    ],
+    "testEnvironment": "jsdom"
   },
   "license": "MIT",
   "devDependencies": {
