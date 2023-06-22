@@ -1,5 +1,6 @@
 import { render } from "@solidjs/testing-library";
 import Tableau from "./table";
+import { fetchData, postData, deleteData, fetchSingle, updateData } from './api';
 
 describe("Test du tableau", () => {
     it('Test des données dans le tableau', async () => {

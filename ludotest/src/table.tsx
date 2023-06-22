@@ -1,7 +1,7 @@
 import type { Component } from 'solid-js';
 import { createSignal } from 'solid-js';
 import { onMount } from 'solid-js';
-import ApiService from './services/api';
+import { fetchData, postData, deleteData, fetchSingle, updateData } from './api';
 
 interface TableauProps {
   games: {
@@ -13,9 +13,9 @@ interface TableauProps {
 }
 
 
-const Tableau: Component<TableauProps> = (props) => {
+const Tableau: Component = () => {
 
-    const apiService = new ApiService();
+    // const apiService = new ApiService();
 
     const [games, setgames] = createSignal([]);
 
@@ -23,7 +23,7 @@ const Tableau: Component<TableauProps> = (props) => {
 
     onMount(async () => {
       try {
-        const data = await apiService.fetchData('JeuViewset/');
+        const data = await fetchData('JeuViewset/');
         setgames(data);
         setLoading(false);
       } catch (error) {
@@ -49,17 +49,11 @@ const Tableau: Component<TableauProps> = (props) => {
                 </thead>
                 <tbody>
                     {/* <!-- row 1 --> */}
-                    {props.games.map((game) => (
+                    {games().map((game : any) => (
                      <tr>
-                        <td>
-                          <div class="flex items-center space-x-3">
-                            <div>
-                              <div class="font-bold">{ game.nom_jeu }</div>
-                              <div class="text-sm opacity-50">{ game.age_min }</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>{ game.date_publication }</td>
+                          <td>{ game.nom_jeu }</td>
+                          <td>{ game.age_min }</td>
+                          <td>{ game.date_publication }</td>
                       </tr>
                     ))}
                 </tbody>
