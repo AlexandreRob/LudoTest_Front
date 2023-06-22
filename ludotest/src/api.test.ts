@@ -1,4 +1,6 @@
-import { fetchData, postData, deleteData, fetchSingle, updateData } from './api';
+import Api from "./api"
+
+const api= new Api()
 
 describe('test api', () => {
   beforeEach(() => {
@@ -19,7 +21,7 @@ describe('test api', () => {
   });
 
   it('test get', async () => {
-    const data = await fetchData('JeuViewset');
+    const data = await api.get('JeuViewset');
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/JeuViewset');
@@ -41,7 +43,7 @@ describe('test api', () => {
       ok: false,
     });
 
-    await expect(fetchData('JeuViewset')).rejects.toThrow('Request failed');
+    await expect(api.get('JeuViewset')).rejects.toThrow('Request failed');
   });
 
   it('test postData', async () => {
@@ -55,7 +57,7 @@ describe('test api', () => {
       id_editeur: 1,
     };
 
-    const responseData = await postData('JeuViewset', data);
+    const responseData = await api.post('JeuViewset', data);
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/JeuViewset', {
@@ -71,7 +73,7 @@ describe('test api', () => {
   it('test deleteData', async () => {
     const id = '1';
 
-    await deleteData('JeuViewset', id);
+    await api.delete('JeuViewset', id);
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/JeuViewset/1', {
@@ -105,7 +107,7 @@ describe('test api', () => {
       json: jest.fn().mockResolvedValue(updatedResponse),
     });
 
-    const data = await updateData('JeuViewset', '2', updatedData);
+    const data = await api.update('JeuViewset', '2', updatedData);
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/JeuViewset/2', {

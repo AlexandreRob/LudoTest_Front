@@ -62,25 +62,5 @@ class Api {
         return responseData;
     }
   }
-  
-const api = new Api();
 
-export async function fetchData(endpoint: string): Promise<any> {
-  return await api.get(endpoint);
-}
-
-export async function fetchSingle(endpoint: string, id: string): Promise<any> {
-  return await api.getSingle(endpoint,id);
-}
-
-export async function postData(endpoint: string, data: any): Promise<any> {
-  return await api.post(endpoint, data);
-}
-
-export async function deleteData(endpoint: string, id: string): Promise<void> {
-  return await api.delete(endpoint, id);
-}
-
-export async function updateData(endpoint: string, id: string, data: any): Promise<any> {
-  return await api.update(endpoint, id, data);
-}
+export default Api
