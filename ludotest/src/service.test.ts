@@ -2,7 +2,7 @@ import Api from "./service"
 
 const api = new Api()
 const mockData = {
-  id_jeu: 2,
+  id_jeu: 1,
   nom_jeu: "It's a wonderful world",
   date_publication: "2015-04-05",
   age_min: 3,
