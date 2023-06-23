@@ -1,33 +1,27 @@
 import { Component, createSignal, onMount } from 'solid-js';
-import Api from './api';
+import Api from './service';
 
 const Formulaire: Component<{ edit: (id: any) => Promise<void> }> = (props) => {
 
     const [nomEditeur, setNomEditeur] = createSignal('');
 
-    const handleSubmit = (event: Event) => {
-      event.preventDefault();
+    const handleSubmit = async (event: Event) => {
 
       const form = event.target as HTMLFormElement;
       const formData = new FormData(form);
       const newEmployee = {
         nom_editeur: formData.get('editeur') as string,
         };
+        console.log(newEmployee)
         const api = new Api();
         try {
-            api.post('EditeurViewset/', newEmployee)
-            console.log('editeur crée : ', newEmployee)
+            await api.post('EditeurViewset', newEmployee)
+            const data = newEmployee.nom_editeur
+            setNomEditeur(data)
         } catch (error){
             console.log("Erreur : ", error);
         }
-        
     };
-
-    const handleEdit = (event: Event) => {
-        event.preventDefault();
-        const api = new Api();
-        // Effectuez l'action souhaitée avec les données du formulaire
-      };
   
     return (
         <div>

@@ -1,32 +1,22 @@
-import { render } from "@solidjs/testing-library";
+import { render, screen } from "@solidjs/testing-library";
 import Tableau from "./tableau";
-import Api from './api';
 
 describe("Test du tableau", () => {
     it('Test des données dans le tableau', async () => {
-        const mockData = [
-          {
-            "id_editeur": 9,
-            "nom_editeur": "ee"
-        },
+        const mockGames = [
+          { nom_editeur: 'Editeur 1' },
+          { nom_editeur: 'Editeur 2' },
         ];
+        
+        render(() => <Tableau games={mockGames} isLoading={false} />);
 
-    const { getByText } = render(() => <Tableau games={mockData} isLoading={false} />);
+    // Vérifiez si les jeux sont correctement affichés dans le tableau
+    const jeu1 = screen.getByText('Editeur 1');
+    expect(jeu1).toBeInTheDocument();
 
-    // Vérifie que les données de la table sont affichées correctement
-    expect(getByText('Monopoly')).toBeInTheDocument();
-    expect(getByText('Scrabble')).toBeInTheDocument();
-    expect(getByText('8')).toBeInTheDocument();
-    expect(getByText('10')).toBeInTheDocument();
-    expect(getByText('1939-12-10')).toBeInTheDocument();
-    expect(getByText('1948-12-01')).toBeInTheDocument();
+    const jeu2 = screen.getByText('Editeur 2');
+    expect(jeu2).toBeInTheDocument();
 
-  });
-
-  it('affiche un message de chargement en cours', () => {
-    const { getByText } = render(() => <Tableau games={[]} isLoading={false} />);
-
-    // Vérifie que le message de chargement en cours est affiché
-    expect(getByText('Chargement en cours...')).toBeInTheDocument();
   });
 })
+

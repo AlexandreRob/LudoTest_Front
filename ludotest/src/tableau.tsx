@@ -1,7 +1,7 @@
 import type { Component } from 'solid-js';
 import { createSignal } from 'solid-js';
 import { onMount } from 'solid-js';
-import Api from './api';
+import Api from './service';
 
 interface TableauProps {
   games: {
@@ -13,19 +13,18 @@ interface TableauProps {
 }
 
 
-const Tableau: Component = () => {
+const Tableau: Component<TableauProps> = (props) => {
     
-    // const apiService = new ApiService();
     const api = new Api()
 
-    const [games, setgames] = createSignal([]);
+    const [games, setgames] = createSignal(props.games || []);
 
-    const [isLoading, setLoading] = createSignal(true);
+    const [isLoading, setLoading] = createSignal(props.isLoading);
 
     onMount(async () => {
       try {
-        const api = new Api();
-        const data = await api.get('EditeurViewset/');
+        // const api = new Api();
+        const data = await api.get('EditeurViewset');
         setgames(data);
         setLoading(false);
       } catch (error) {
@@ -37,7 +36,7 @@ const Tableau: Component = () => {
       try {
         const api = new Api();
         api.delete('EditeurViewset',id)
-        console.log('Ok')
+        console.log('Editeur supp')
       } catch (error) {
         console.log(error)
       }
@@ -46,9 +45,9 @@ const Tableau: Component = () => {
 
     const Edit = async (id : any) => {
       try {
-        const api = new Api();
-        const data = await api.getSingle('EditeurViewset', id + "/");
-        const nomEditeur = data.nom_editeur; // Supposons que "nomEditeur" est le champ que vous voulez remplir dans le formulaire
+        // const api = new Api();
+        const data = await api.getSingle('EditeurViewset', id);
+        const nomEditeur = data.nom_editeur;
         const edit = document.getElementById('editeur')  as HTMLInputElement
         edit.value = nomEditeur
         edit.setAttribute('data-id',data.id_editeur)
@@ -61,12 +60,11 @@ const Tableau: Component = () => {
 
     const handleEdit = async () => {
       try {
-        const api = new Api();
+        // const api = new Api();
         const edit = document.getElementById('editeur') as HTMLInputElement;
         const id = edit.getAttribute('data-id');
         const data = {"nom_editeur": edit.value}
-        console.log(edit)
-        await api.update('EditeurViewset', id + "/", data )
+        await api.update('EditeurViewset', id, data )
       } catch (error) {
         console.log(error)
       }
@@ -83,9 +81,9 @@ const Tableau: Component = () => {
                 {/* <!-- head --> */}
                 <thead>
                     <tr>
-                        <th>Nom</th>
-                        <th>Age min</th>
-                        <th>Date de publication</th>
+                        <th>Nom editeur</th>
+                        {/* <th>Age min</th>
+                        <th>Date de publication</th> */}
                         <th></th>
                     </tr>
                 </thead>
@@ -126,9 +124,5 @@ const Tableau: Component = () => {
     );
 
 };
-
-
-
-
 
 export default Tableau;

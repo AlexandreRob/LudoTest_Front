@@ -4,9 +4,11 @@ import Tableau from './tableau';
 import Formulaire from './formulaire';
 
 const App: Component = () => {
+  const handleEdit = (id: any) => {
+  };
   return (
     <>
-    < Formulaire></Formulaire>
+    < Formulaire edit={handleEdit}></Formulaire>
     < Tableau></Tableau>
     </>
 
