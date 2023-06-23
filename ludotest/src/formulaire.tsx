@@ -1,7 +1,14 @@
 import { Component, createSignal, onMount } from 'solid-js';
 import Api from './service';
 
-const Formulaire: Component<{ edit: (id: any) => Promise<void> }> = (props) => {
+
+interface Form {
+    games: {
+      nom_editeur: string;
+    }[];
+  }
+
+const Formulaire: Component<Form> = () => {
 
     const [nomEditeur, setNomEditeur] = createSignal('');
 
@@ -12,7 +19,7 @@ const Formulaire: Component<{ edit: (id: any) => Promise<void> }> = (props) => {
       const newEmployee = {
         nom_editeur: formData.get('editeur') as string,
         };
-        console.log(newEmployee)
+        // console.log(newEmployee)
         const api = new Api();
         try {
             await api.post('EditeurViewset', newEmployee)
