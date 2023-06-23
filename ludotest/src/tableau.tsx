@@ -5,9 +5,7 @@ import Api from './service';
 
 interface TableauProps {
   games: {
-    nom_jeu: string;
-    date_publication: string;
-    age_min: number;
+    nom_editeur: string;
   }[];
   isLoading: boolean;
 }
@@ -62,7 +60,7 @@ const Tableau: Component<TableauProps> = (props) => {
       try {
         // const api = new Api();
         const edit = document.getElementById('editeur') as HTMLInputElement;
-        const id = edit.getAttribute('data-id');
+        const id : any = edit.getAttribute('data-id');
         const data = {"nom_editeur": edit.value}
         await api.update('EditeurViewset', id, data )
       } catch (error) {
