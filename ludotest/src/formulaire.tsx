@@ -1,9 +1,9 @@
 import { Component, createSignal, onMount } from 'solid-js';
 import Api from './api';
 
-const Formulaire: Component = () => {
+const Formulaire: Component<{ edit: (id: any) => Promise<void> }> = (props) => {
 
-    const [editeurs, setediteurs] = createSignal<any[]>([]);
+    const [nomEditeur, setNomEditeur] = createSignal('');
 
     const handleSubmit = (event: Event) => {
       event.preventDefault();
@@ -13,9 +13,24 @@ const Formulaire: Component = () => {
       const newEmployee = {
         nom_editeur: formData.get('editeur') as string,
         };
+        const api = new Api();
+        try {
+            api.post('EditeurViewset/', newEmployee)
+            console.log('editeur crée : ', newEmployee)
+        } catch (error){
+            console.log("Erreur : ", error);
+        }
+        
     };
+
+    const handleEdit = (event: Event) => {
+        event.preventDefault();
+        const api = new Api();
+        // Effectuez l'action souhaitée avec les données du formulaire
+      };
   
     return (
+        <div>
         <form onSubmit={handleSubmit} class="form">
 
             <label class="label">
@@ -26,9 +41,10 @@ const Formulaire: Component = () => {
             </label>
 
             <button type="submit" class="btn btn-active btn-primary">
-            Add Employee
+            Add editeur
             </button>
         </form>
+        </div>
     );
   };
   
