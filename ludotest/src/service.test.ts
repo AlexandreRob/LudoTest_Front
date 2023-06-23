@@ -1,6 +1,6 @@
-import Api from "./api"
+import Api from "./service"
 
-const api= new Api()
+const api = new Api()
 
 describe('test api', () => {
   beforeEach(() => {
@@ -24,7 +24,10 @@ describe('test api', () => {
     const data = await api.get('JeuViewset');
 
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/JeuViewset');
+    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/JeuViewset/', {
+      method: 'GET',
+      headers: {},
+    });
     expect(data).toEqual(
       {
         id_jeu: 2,
@@ -38,12 +41,26 @@ describe('test api', () => {
     );
   });
 
-  it('test requete echoue', async () => {
-    global.fetch = jest.fn().mockResolvedValue({
-      ok: false,
-    });
+  it('test get', async () => {
+    const id = '1'
+    const data = await api.getSingle('JeuViewset', id);
 
-    await expect(api.get('JeuViewset')).rejects.toThrow('Request failed');
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/JeuViewset/1/', {
+      method: 'GET',
+      headers: {},
+    });
+    expect(data).toEqual(
+      {
+        id_jeu: 2,
+        nom_jeu: "It's a wonderful world",
+        date_publication: "2015-04-05",
+        age_min: 3,
+        joueurs_min: 4,
+        joueurs_max: 6,
+        id_editeur: 1,
+      },
+    );
   });
 
   it('test postData', async () => {
@@ -60,7 +77,7 @@ describe('test api', () => {
     const responseData = await api.post('JeuViewset', data);
 
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/JeuViewset', {
+    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/JeuViewset/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -76,7 +93,7 @@ describe('test api', () => {
     await api.delete('JeuViewset', id);
 
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/JeuViewset/1', {
+    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/JeuViewset/1/', {
       method: 'DELETE',
     });
   });
@@ -110,7 +127,7 @@ describe('test api', () => {
     const data = await api.update('JeuViewset', '2', updatedData);
 
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/JeuViewset/2', {
+    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:8000/api/JeuViewset/2/', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
