@@ -49,7 +49,7 @@ const Tableau: Component = () => {
         const api = new Api();
         const data = await api.getSingle('EditeurViewset', id + "/");
         const nomEditeur = data.nom_editeur; // Supposons que "nomEditeur" est le champ que vous voulez remplir dans le formulaire
-        const edit = document.getElementById('editeur')
+        const edit = document.getElementById('editeur')  as HTMLInputElement
         edit.value = nomEditeur
         edit.setAttribute('data-id',data.id_editeur)
         console.log(edit.value)
