@@ -36,7 +36,7 @@ class Api {
   }
 
   public async delete(endpoint: string, id: string): Promise<void> {
-    const response = await fetch(`${this.baseUrl}${endpoint}/${id}/`, {
+    await fetch(`${this.baseUrl}${endpoint}/${id}/`, {
       method: 'DELETE',
     });
   }
