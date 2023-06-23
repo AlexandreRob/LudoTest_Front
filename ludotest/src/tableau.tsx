@@ -24,7 +24,7 @@ const Tableau: Component = () => {
     onMount(async () => {
       try {
         const api = new Api();
-        const data = await api.get('JeuViewset/');
+        const data = await api.get('EditeurViewset/');
         setgames(data);
         setLoading(false);
       } catch (error) {
@@ -45,24 +45,27 @@ const Tableau: Component = () => {
 
     const Edit = async (id : any) => {
       try {
-        const data = await api.getSingle('EditeurViewset', id);
+        const api = new Api();
+        const data = await api.getSingle('EditeurViewset', id + "/");
         const nomEditeur = data.nom_editeur; // Supposons que "nomEditeur" est le champ que vous voulez remplir dans le formulaire
         const edit = document.getElementById('editeur')
         edit.value = nomEditeur
         edit.setAttribute('data-id',data.id_editeur)
-        console.log(edit)
+        console.log(edit.value)
       } catch (error) {
         console.error(error);
       }
     
     }
 
-    const handleEdit = () => {
+    const handleEdit = async () => {
       try {
+        const api = new Api();
         const edit = document.getElementById('editeur') as HTMLInputElement;
         const id = edit.getAttribute('data-id');
+        const data = {"nom_editeur": edit.value}
         console.log(edit)
-        api.update('EditeurViewset', id, edit.value )
+        await api.update('EditeurViewset', id + "/", data )
       } catch (error) {
         console.log(error)
       }
